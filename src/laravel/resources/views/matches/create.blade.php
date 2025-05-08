@@ -8,8 +8,13 @@
         @csrf
 
         <div>
-            <label for="datetime" class="form-label">Дата и время</label>
-            <input type="datetime-local" name="datetime" class="form-control" required>
+            <label for="start_at" class="form-label">Дата и время начала</label>
+            <input type="datetime-local" name="start_at" class="form-control" required>
+        </div>
+
+        <div>
+            <label for="end_at" class="form-label">Дата и время окончание</label>
+            <input type="datetime-local" name="end_at" class="form-control" required>
         </div>
 
         <div>

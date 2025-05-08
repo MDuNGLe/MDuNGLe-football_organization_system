@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('fields', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->decimal('latitude', 10, 7); // Широта
             $table->decimal('longitude', 10, 7); // Долгота
             $table->text('booking_terms');

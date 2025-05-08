@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Teams List</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
     <h1>Teams</h1>
 
     <a href="{{ route('teams.create') }}">Create New Team</a>
@@ -46,5 +42,4 @@
         </tbody>
     </table>
 
-</body>
-</html>
+@endsection

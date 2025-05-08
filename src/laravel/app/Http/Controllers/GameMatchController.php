@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreGameMatchRequest;
 use App\Http\Requests\UpdateGameMatchRequest;
+use App\Http\Resources\FullCalendarMatchCollection;
 use App\Models\Field;
 use App\Models\GameMatch;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class GameMatchController extends Controller
     {
         $matches = GameMatch::all();
         if ($request->wantsJson())
-            return response($matches);
+            return new FullCalendarMatchCollection($matches);
         else
             return view('matches.index', compact('matches'));
     }
@@ -46,7 +47,8 @@ class GameMatchController extends Controller
 
     public function edit(GameMatch $match)
     {
-        return view('matches.edit', compact('match'));
+        $fields = Field::all();
+        return view('matches.edit', compact('fields', 'match'));
     }
 
     /**

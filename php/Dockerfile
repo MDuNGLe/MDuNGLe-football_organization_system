@@ -10,3 +10,8 @@ RUN apk add --no-cache -- \
 COPY --from=composer:latest -- /usr/bin/composer /usr/bin/composer
 
 RUN composer global require laravel/installer
+
+RUN apk add --update nodejs npm
+RUN npm install \
+@fullcalendar /core \
+@fullcalendar /timegrid

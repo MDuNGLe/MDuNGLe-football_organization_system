@@ -18,7 +18,8 @@ return new class extends Migration
                 ->onDelete('CASCADE')
                 ->onUpdate('RESTRICT')
             ;
-            $table->dateTime('datetime');
+            $table->dateTimeTz('start_at');
+            $table->dateTimeTz('end_at');
             $table->string('status');
             $table->timestamps();
         });

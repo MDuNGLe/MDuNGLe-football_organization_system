@@ -2,34 +2,39 @@
 
 @section('content')
 <div class="container">
-    <h1>Редактировать команду</h1>
+    <h1>Редактировать матч</h1>
 
     <form action="{{ route('matches.update', $match) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
 
+
         <div>
-            <label for="statistics" class="form-label">Статистика</label>
-            <textarea name="statistics" class="form-control">{{ $team->statistics }}</textarea>
+            <label for="start_at" class="form-label">Дата и время начала</label>
+            <input type="datetime-local" name="start_at" class="form-control" value="{{ $match->start_at }}" required>
+        </div>
+        <div>
+            <label for="end_at" class="form-label">Дата и время окончание</label>
+            <input type="datetime-local" name="end_at" class="form-control" value="{{ $match->end_at }}" required>
         </div>
 
         <div>
-            <label for="datetime" class="form-label">Дата и время</label>
-            <input type="datetime-local" name="datetime" class="form-control" value="{{ $team->datetime }}" required>
-        </div>
-
-        <div>
-            <label for="location" class="form-label">Место</label>
-            <input type="text" name="location" class="form-control" value="{{ $team->location }}" required>
+            <label for="field_id" class="form-label">Место</label>
+            <!-- <input type="text" name="location" class="form-control" required> -->
+             <select name="field_id" id="field_id">
+                @foreach($fields as $field)
+                <option {{$field->id == $match->field_id ? 'selected' : ''}} value="{{ $field -> id }}">{{ $field -> name }}</option>
+                @endforeach
+             </select>
         </div>
 
         <div>
             <label for="status" class="form-label">Статус</label>
             <select name="status" class="form-control" required>
-                <option value="scheduled" {{ $team->status == 'scheduled' ? 'selected' : '' }}>Запланирован</option>
-                <option value="completed" {{ $team->status == 'completed' ? 'selected' : '' }}>Завершён</option>
-                <option value="cancelled" {{ $team->status == 'cancelled' ? 'selected' : '' }}>Отменён</option>
+                <option value="scheduled" {{ $match->status == 'scheduled' ? 'selected' : '' }}>Запланирован</option>
+                <option value="completed" {{ $match->status == 'completed' ? 'selected' : '' }}>Завершён</option>
+                <option value="cancelled" {{ $match->status == 'cancelled' ? 'selected' : '' }}>Отменён</option>
             </select>
         </div>
 

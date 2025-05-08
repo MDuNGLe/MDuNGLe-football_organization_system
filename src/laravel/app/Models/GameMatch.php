@@ -12,7 +12,8 @@ class GameMatch extends Model
     use HasFactory;
 
     protected $fillable = [
-        'datetime',
+        'start_at',
+        'end_at',
         'field_id',
         'status',
     ];
