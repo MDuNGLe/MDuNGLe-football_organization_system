@@ -1,11 +1,22 @@
 @extends('layouts.app')
 
+@push('scripts')
+    @vite('resources/js/fullcalendar.js')
+    <!-- <script src="{{asset ('js/fullcalendar.js')}}"></script> -->
+@endpush
 @section('content')
 <div class="container">
     <h1>Добавить матч</h1>
 
+    <div id="calendar"></div>
+
+
     <form action="{{ route('matches.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
+        <div>
+            <label for="title" class="form-label">Название матча</label>
+            <input type="text" name="title" class="form-control" required>
+        </div>
 
         <div>
             <label for="start_at" class="form-label">Дата и время начала</label>
@@ -40,21 +51,4 @@
         <a href="{{ route('teams.index') }}" class="btn btn-secondary">Отмена</a>
     </form>
 </div>
-@if ($errors->any())
-
-    <div class="alert alert-danger">
-
-        <ul>
-
-            @foreach ($errors->all() as $error)
-
-                <li>{{ $error }}</li>
-
-            @endforeach
-
-        </ul>
-
-    </div>
-
-@endif
 @endsection

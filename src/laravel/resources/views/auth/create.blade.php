@@ -21,7 +21,12 @@
     <input type="checkbox" class="form-check-input" id="exampleCheck1">
     <label class="form-check-label" for="exampleCheck1">Check me out</label>
   </div>
+  <div class="form-group">
+    {!! NoCaptcha::display() !!}
+  </div>
   <button type="submit" class="btn btn-primary">Отправить</button>
 </form>
+
+{!! NoCaptcha::renderJs() !!}
 
 @endsection

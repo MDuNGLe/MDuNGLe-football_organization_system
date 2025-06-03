@@ -22,6 +22,7 @@ class StoreGameMatchRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'title' => 'required|string|max:255',
             'start_at' => 'required|date|after:now|before:end_at',
             'end_at' => 'required|date|after:start_at',
             'field_id' => 'required|integer|exists:fields,id',

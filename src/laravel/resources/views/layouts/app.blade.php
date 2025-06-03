@@ -25,6 +25,7 @@
             <a class="" href="{{ route('teams.index') }}">Команды</a>
             <a class="" href="{{ route('fields.index') }}">Футбольные поля</a>
             <a class="" href="{{ route('matches.index') }}">Матчи</a>
+            <a class="" href="{{ route('match_team.index') }}">Игры команд</a>
             <a class="" href="{{ route('logout')}}">Выйти</a>
         @else
             <a class="" href="{{ route('register.create') }}">Регистрация</a>

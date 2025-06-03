@@ -16,6 +16,7 @@ class FullCalendarMatchResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'title' => $this->field->name,
             'start' => Carbon::createFromFormat('Y-m-d H:i:s', $this->start_at)->toIso8601String(),
             'end' => Carbon::createFromFormat('Y-m-d H:i:s', $this->end_at)->toIso8601String(),

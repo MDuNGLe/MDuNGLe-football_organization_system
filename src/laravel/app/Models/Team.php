@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Team extends Model
 {
@@ -16,4 +17,9 @@ class Team extends Model
         'description',
         'statistics',
     ];
+
+    public function matchTeams(): HasMany
+    {
+        return $this->hasMany(MatchTeam::class);
+    }
 }

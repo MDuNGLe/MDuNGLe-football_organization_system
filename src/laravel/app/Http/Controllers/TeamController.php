@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTeamRequest;
 use App\Http\Requests\UpdateTeamRequest;
+use App\Http\Resources\TeamCollection;
 use App\Models\Team;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class TeamController extends Controller
@@ -12,10 +14,16 @@ class TeamController extends Controller
     /**
      * Показать список всех команд.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $teams = Team::all();
-        return view('teams.index', compact('teams'));
+
+        if ($request->wantsJson()) {
+            $teams = Team::query()->where('name','LIKE',$request->input('filter.name'))->get();
+            return new TeamCollection($teams);
+        } else {
+            $teams = Team::all();
+            return view('teams.index', compact('teams'));
+        }
     }
 
     /**
@@ -33,13 +41,13 @@ class TeamController extends Controller
     {
         $validated = $request->validated();
 
-        $path = $request->file('emblem')->store('emblems','public');
+        $path = $request->file('emblem')->store('emblems', 'public');
 
 
 
-        if ($path){
+        if ($path) {
 
-            $validated ['emblem'] = $path;
+            $validated['emblem'] = $path;
         }
 
         Team::create($validated);

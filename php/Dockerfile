@@ -13,5 +13,6 @@ RUN composer global require laravel/installer
 
 RUN apk add --update nodejs npm
 RUN npm install \
-@fullcalendar /core \
-@fullcalendar /timegrid
+@fullcalendar/core \
+@fullcalendar/timegrid \
+@fullcalendar/interaction\

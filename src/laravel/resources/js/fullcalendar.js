@@ -1,18 +1,28 @@
-document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
+import { Calendar } from '@fullcalendar/core'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin from '@fullcalendar/interaction'
+
+document.addEventListener('DOMContentLoaded', function () {
+    let createEvent = true;
+    const calendarEl = document.getElementById('calendar');
+    const calendar = new Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         locale: 'ru',
         timeZone: 'none',
         firstDay: 1,
-        plugins: [FullCalendar.TimeGrid],
+        dragScroll: true,
+        editable: true,
+        selectable: true,
+        eventOverlap: false,
+        // slotEventOverlap: false,
+        plugins: [timeGridPlugin, interactionPlugin],
         initialView: 'timeGridWeek',
         headerToolbar: {
             left: 'prev,next',
             center: 'title',
             right: 'timeGridWeek,timeGridDay', // user can switch between the two
         },
-        events: async function(info, successCallback, failureCallback) {
+        events: async function (info, successCallback, failureCallback) {
             const url = 'http://localhost:8000/api/matches'
             const response = await fetch(url, {
                 method: "GET", // *GET, POST, PUT, DELETE, etc.
@@ -33,7 +43,47 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
             // console.log(data);
             successCallback(data);
-        }
+        },
+        select: function (info) {
+
+            if (createEvent) {
+
+                const title = prompt("Введите местоположение события:");
+                const data = {
+                    title: title,
+                    start: info.start,
+                    end: info.end,
+                };
+                if (title) {
+                    calendar.addEvent(data);
+
+                    updateForm({...info,title});
+                }
+                calendar.unselect();
+                createEvent = false;
+            }
+        },
+
+        eventDrop: function (info) {
+            if (!info.event.id) {
+                updateForm(info.event);
+            }
+             else {
+                info.revert();
+            }
+        },
+
+        eventResize: function (info) {
+            // console.log(info.event.id);
+            if (!info.event.id) {
+                updateForm(info.event);
+            }
+            else {
+                info.revert();
+            }
+
+        },
+
         // {
         //   title  : 'event1',
         //   start  : '2025-05-05'
@@ -52,3 +102,25 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     calendar.render();
 });
+
+function updateForm(info) {
+    const title = document.querySelector('input[name="title"]');
+    const startInput = document.querySelector('input[name="start_at"]');
+    const endInput = document.querySelector('input[name="end_at"]');
+
+    if (startInput && endInput && title) {
+        title.value = info.title;
+        startInput.value = info.startStr;
+        endInput.value = info.endStr;
+
+        // startInput.value = formatDateTimeLocal(info.start);
+        // endInput.value = formatDateTimeLocal(info.end);
+    }
+}
+
+// function formatDateTimeLocal(date) {
+//     if (!date) return '';
+//     const d = new Date(date);
+//     const pad = (n) => n.toString().padStart(2, '0');
+//     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+// }

@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateGameMatchRequest;
 use App\Http\Resources\FullCalendarMatchCollection;
 use App\Models\Field;
 use App\Models\GameMatch;
+use App\Models\MatchTeam;
 use Illuminate\Http\Request;
 
 class GameMatchController extends Controller
@@ -37,13 +38,20 @@ class GameMatchController extends Controller
         $validated = $request->validated();
         GameMatch::create($validated);
 
-        return redirect()->route('matches.index')->with('success', 'Матч успешно добавлен!');
+        return redirect()->route('match_team.create')->with('success', 'Матч успешно добавлен!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(GameMatch $match) {}
+    public function show(GameMatch $match)
+    {
+        $teams = MatchTeam::with('team')
+            ->where('game_match_id', $match->id)
+            ->get();
+
+        return view('match_team.teams', compact('match', 'teams'));
+    }
 
     public function edit(GameMatch $match)
     {

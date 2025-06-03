@@ -15,6 +15,9 @@
     },
     "dependencies": {
         "@fullcalendar/core": "^6.1.17",
-        "@fullcalendar/timegrid": "^6.1.17"
+        "@fullcalendar/interaction": "^6.1.17",
+        "@fullcalendar/timegrid": "^6.1.17",
+        "@shopify/draggable": "^1.1.4",
+        "jquery": "^3.7.1"
     }
 }
